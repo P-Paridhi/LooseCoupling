@@ -6,6 +6,8 @@ import com.paridhi.mvc.SpringMvcArchitecture.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/employees")
@@ -34,5 +36,23 @@ public class EmployeeController {
     @PostMapping
     public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
         return employeeService.createNewEmployee(inputEmployee);
+    }
+
+    @PutMapping(path = "/{employeeID}")
+    public EmployeeDTO updateEmployeeByID(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeID){
+        return employeeService.updateEmployeeById(employeeID, employeeDTO);
+    }
+
+    @DeleteMapping(path = "/{employeeId}")
+    public void deleteEmployeeById(@PathVariable Long employeeId){
+        employeeService.deleteEmployeeById(employeeId);
+    }
+
+    @PatchMapping("/{employeeId}")
+    public EmployeeDTO patchEmployeeById(
+            @RequestBody Map<String, Object> updates,
+            @PathVariable Long employeeId) {
+
+        return employeeService.patchEmployeeById(employeeId, updates);
     }
 }
