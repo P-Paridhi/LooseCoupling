@@ -2,11 +2,9 @@ package com.paridhi.mvc.SpringMvcArchitecture.controllers;
 
 import com.paridhi.mvc.SpringMvcArchitecture.dto.EmployeeDTO;
 import com.paridhi.mvc.SpringMvcArchitecture.entities.EmployeeEntity;
-import com.paridhi.mvc.SpringMvcArchitecture.repositories.EmployeeRepository;
+import com.paridhi.mvc.SpringMvcArchitecture.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,24 +15,24 @@ public class EmployeeController {
 //        return "Lessssgoooo!!!";
 //    }
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/{id}")
-    public EmployeeEntity getEmployeeById(@PathVariable Long id){
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDTO getEmployeeById(@PathVariable Long id){
+        return employeeService.getEmployeeById(id);
     }
 
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age) {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age) {
+        return employeeService.getAllEmployees(age);
     }
 
     @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee){
-        return employeeRepository.save(inputEmployee);
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+        return employeeService.createNewEmployee(inputEmployee);
     }
 }
