@@ -3,6 +3,7 @@ package com.paridhi.mvc.SpringMvcArchitecture.controllers;
 import com.paridhi.mvc.SpringMvcArchitecture.dto.EmployeeDTO;
 import com.paridhi.mvc.SpringMvcArchitecture.entities.EmployeeEntity;
 import com.paridhi.mvc.SpringMvcArchitecture.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
+
         this.employeeService = employeeService;
     }
 
@@ -34,7 +36,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+    public EmployeeDTO createNewEmployee(@RequestBody @Valid EmployeeDTO inputEmployee){
         return employeeService.createNewEmployee(inputEmployee);
     }
 
