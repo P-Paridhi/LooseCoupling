@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +27,7 @@ public class EmployeeService {
     }
 
     public EmployeeDTO getEmployeeById(Long id){
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).orElse(null);
+        EmployeeEntity employeeEntity = employeeRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Employee Not Found"));
         return modelMapper.map(employeeEntity, EmployeeDTO.class);
     }
 
@@ -59,7 +60,7 @@ public class EmployeeService {
 
         boolean exists = isExistsEmployeeId(employeeId);
         if (!exists) {
-            return null;
+            throw new NoSuchElementException("Employee Not Found");
         }
 
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
